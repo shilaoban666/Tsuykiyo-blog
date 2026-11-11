@@ -1,8 +1,10 @@
 # syntax=docker/dockerfile:1
 FROM node:22-alpine AS deps
 WORKDIR /app
+# 国内服务器构建可传入 --build-arg NPM_REGISTRY=https://registry.npmmirror.com
+ARG NPM_REGISTRY=https://registry.npmjs.org
 COPY package.json package-lock.json* ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --registry="$NPM_REGISTRY"
 
 FROM node:22-alpine AS builder
 WORKDIR /app
