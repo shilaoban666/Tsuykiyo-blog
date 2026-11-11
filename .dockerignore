@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+.npm-cache
+.pgdata
+data/uploads
+data/music
+data/csdn-cache
+docs
+*.png
+*.log
+.env.local
+.env

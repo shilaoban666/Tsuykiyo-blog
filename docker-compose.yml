@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tsukiyo_blog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-please}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tsukiyo_blog"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-change-me-please}@db:5432/tsukiyo_blog
+      AUTH_SECRET: ${AUTH_SECRET:-please-change-this-secret}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@tsukiyo.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-tsukiyo2026}
+      ADMIN_NAME: ${ADMIN_NAME:-月白主人}
+    volumes:
+      - uploads:/app/data/uploads
+      - music:/app/data/music
+
+volumes:
+  pgdata:
+  uploads:
+  music:
