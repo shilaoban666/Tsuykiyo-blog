@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 安全问题
+    url: https://github.com/shilaoban666/Tsuykiyo-blog/blob/master/SECURITY.md
+    about: 请不要在公开 Issue 里贴漏洞细节，先看这里的报告方式
