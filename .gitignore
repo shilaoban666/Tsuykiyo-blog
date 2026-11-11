@@ -15,4 +15,5 @@ shot-*.png
 tsukiyo-blog-source.zip
 next-env.d.ts
 .DS_Store
-Thumbs.dbdeploy-bundle/
+Thumbs.db
+deploy-bundle/
