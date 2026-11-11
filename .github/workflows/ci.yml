@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [feature, dev, release, prod, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Typecheck and build
+    runs-on: ubuntu-latest
+    env:
+      # 构建阶段不连接数据库，这里只需要一个格式正确的占位连接串
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/tsukiyo_blog
+      AUTH_SECRET: ci-only-secret
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build

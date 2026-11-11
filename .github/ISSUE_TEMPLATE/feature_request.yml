@@ -1,0 +1,27 @@
+name: 功能建议
+description: 想要的新功能，或对现有功能的改进
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 想解决什么问题
+      description: 先说场景和痛点，再说方案
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: 你设想的做法
+  - type: dropdown
+    id: area
+    attributes:
+      label: 涉及的部分
+      multiple: true
+      options:
+        - 前台页面
+        - 后台控制台
+        - 动效与主题
+        - 多语言
+        - 内容导入
+        - 部署与脚本
