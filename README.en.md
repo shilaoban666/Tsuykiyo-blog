@@ -1,0 +1,161 @@
+<div align="center">
+
+<img src="public/og.png" alt="Tsukiyo" width="100%" />
+
+# 月白 TSUKIYO
+
+**A quiet place between moonlight and code.**
+
+An anime-flavoured personal blog and CMS with an editorial feel.<br />
+A calm reading space in front, a writing console you can actually publish from in the back.
+
+[![CI](https://github.com/shilaoban666/Tsuykiyo-blog/actions/workflows/ci.yml/badge.svg)](https://github.com/shilaoban666/Tsuykiyo-blog/actions/workflows/ci.yml)
+![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-4169E1?logo=postgresql&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-ff7a92)](LICENSE)
+
+[简体中文](README.md) · **English**
+
+</div>
+
+---
+
+## ✨ Highlights
+
+- **Two themes, night and dawn.** Two full palettes and two hero illustrations. Switching themes reveals the new one as a circle growing from the toggle button.
+- **Pages that move.** Fade-through page changes, post covers that grow into the article header, a starry hero with meteors, scroll parallax, and cards with a soft spotlight and 3D tilt.
+- **A console you can write in every day.** Split-pane Markdown editor with live preview, cover upload, categories and tags, comment moderation, media library, site settings.
+- **Seven languages.** Chinese, English, Japanese, German, French, Spanish and Korean. Picked from the browser language on first visit and remembered for a year.
+- **Glass vinyl music player.** Playlist, seek, volume and loop, and it keeps playing across pages. It never autoplays.
+- **One command to run.** `docker compose up -d`, or double-click `start.bat` on Windows. The database, tables and sample content are created for you.
+
+This is not a template or an admin scaffold. The front end, back end, database schema, sample content and start-up scripts all live in this repository.
+
+## 📸 Preview
+
+<table>
+<tr>
+<td width="50%"><img src="docs/home.png" alt="Home, night theme" /><p align="center"><sub>Home · night</sub></p></td>
+<td width="50%"><img src="docs/home-light.png" alt="Home, dawn theme" /><p align="center"><sub>Home · dawn</sub></p></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/post-en.png" alt="Article page" /><p align="center"><sub>Article: table of contents, progress, code highlighting</sub></p></td>
+<td width="50%"><img src="docs/home-en.png" alt="Home in English" /><p align="center"><sub>Home in English</sub></p></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/admin.png" alt="Admin dashboard" /><p align="center"><sub>Admin dashboard</sub></p></td>
+<td width="50%"><img src="docs/editor.png" alt="Editor" /><p align="center"><sub>Markdown editor with live preview</sub></p></td>
+</tr>
+</table>
+
+The admin console is in Chinese; the public site is localized in all seven languages.
+
+## 🚀 Quick start
+
+### Docker
+
+```bash
+git clone https://github.com/shilaoban666/Tsuykiyo-blog.git
+cd Tsuykiyo-blog
+docker compose up -d --build
+```
+
+Open <http://localhost:3000>. Before deploying for real, set `POSTGRES_PASSWORD`, `AUTH_SECRET`, `ADMIN_PASSWORD` and `NEXT_PUBLIC_SITE_URL`, and put Nginx or Caddy in front for HTTPS.
+
+### Windows, one click
+
+1. Install [Node.js 20.9+](https://nodejs.org/) and PostgreSQL 14+.
+2. Double-click **`start.bat`**.
+
+The script checks your environment, writes `.env.local` with a random `AUTH_SECRET`, installs dependencies, creates the database and tables, seeds sample content, builds and starts the site. If your PostgreSQL password is not `123456`, edit `DATABASE_URL` in `.env.local` first.
+
+### Manual (macOS / Linux / existing database)
+
+```bash
+npm install
+cp .env.example .env.local   # set DATABASE_URL, AUTH_SECRET, ADMIN_PASSWORD
+npm run db:setup             # create database and tables
+npm run db:seed              # sample content and the admin account
+npm run dev                  # for production: npm run build && npm run start
+```
+
+### Default admin
+
+| Console | Email | Password |
+| --- | --- | --- |
+| <http://localhost:3000/admin> | `admin@tsukiyo.local` | `tsukiyo2026` |
+
+> [!WARNING]
+> These are demo credentials. Change the password after your first login, and set `ADMIN_PASSWORD` and `AUTH_SECRET` through environment variables before any public deployment.
+
+### Environment variables
+
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| `DATABASE_URL` | PostgreSQL connection string | `postgres://postgres:123456@127.0.0.1:5432/tsukiyo_blog` |
+| `NEXT_PUBLIC_SITE_URL` | Public site URL, used for RSS, sitemap and share cards | `http://localhost:3000` |
+| `AUTH_SECRET` | Secret for sessions and IP hashing | generated by the start script |
+| `ADMIN_EMAIL` | Admin email created on first run | `admin@tsukiyo.local` |
+| `ADMIN_PASSWORD` | Admin password created on first run | `tsukiyo2026` |
+| `ADMIN_NAME` | Admin display name | `月白主人` |
+
+## 🧱 Tech stack
+
+| Layer | Choice |
+| --- | --- |
+| Framework | Next.js 15 App Router, React 19, TypeScript |
+| Styling | Tailwind CSS 4, custom design tokens, hand-written SVG and CSS decoration |
+| Motion | Framer Motion, View Transitions API, CSS scroll-driven animations |
+| Back end | Next.js Route Handlers (REST), Zod validation, rate limiting, same-origin checks |
+| Database | PostgreSQL with postgres.js and a Drizzle schema |
+| Auth | scrypt password hashing, database sessions, HttpOnly cookies |
+| i18n | Home-grown dictionaries for seven languages, cookie plus `Accept-Language` detection |
+| Content | Markdown, GFM, rehype-highlight, rehype-slug |
+| Fonts | Cormorant Garamond, Noto Serif SC, Manrope, all self-hosted through npm |
+
+## 📦 What is included
+
+**Public site**
+
+- Home, posts, categories, tags, archive, about, friends, products, search
+- Article reading with table of contents, reading progress, previous / next, related posts, likes and view counts
+- Guest comments with moderation and threaded replies
+- RSS, sitemap, robots, Open Graph cards, 404
+- Phone and iPad layouts, safe-area support, and `prefers-reduced-motion`
+
+**Admin console**
+
+- Email and password login with rate limiting
+- Dashboard with publishing rhythm, recent edits, recent comments and top posts
+- Post CRUD, drafts, featured and pinned posts, SEO fields
+- Categories, tags, comment moderation, media library, playlist, site settings
+
+**Importers**
+
+- `node scripts/import-csdn.mjs` imports CSDN articles with their real view and comment counts
+- `node scripts/import-wechat.mjs` imports WeChat Official Account articles listed in `wechat-import/links.txt`
+- Images are downloaded, converted to WebP and served locally; imports are de-duplicated by source URL
+
+## 🔒 Security notes
+
+- Passwords are hashed with salted scrypt; session tokens are stored as SHA-256 hashes.
+- Admin write endpoints check the request origin. Login and comment endpoints are rate limited.
+- Uploads are limited to 8 MB for images and 30 MB for audio, with MIME checks and path traversal protection.
+- Comments are `pending` until approved and are rendered as plain text.
+
+See [SECURITY.md](SECURITY.md) for how to report a vulnerability.
+
+## 🤝 Contributing
+
+Issues and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and the branching model in [BRANCHING.md](BRANCHING.md) (`feature → dev → release → prod → master`). Release notes are in [CHANGELOG.md](CHANGELOG.md).
+
+## 🙏 Acknowledgements
+
+Design and product ideas were informed by [XinghuisamaBlogs](https://github.com/heiehiehi/XinghuisamaBlogs), [ThriveX-Blog](https://github.com/LiuYuYang01/ThriveX-Blog), [ai-design-skills](https://github.com/elayadesign/ai-design-skills) and [Nutlope/hallmark](https://github.com/nutlope/hallmark). No source code was copied from them.
+
+## 📄 License
+
+Code is released under the [MIT License](LICENSE). Sample posts are fictional and the illustrations are AI-generated demo assets you are free to replace.
