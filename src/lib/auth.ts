@@ -24,7 +24,8 @@ export async function createSession(userId: string, userAgent?: string | null) {
   store.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    // 只在 https 站点上加 Secure；http 部署（比如还没配证书的 IP 访问）加了会导致浏览器丢弃 Cookie、无法登录
+    secure: (process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("https://"),
     path: "/",
     expires: expiresAt,
   });
