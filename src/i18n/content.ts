@@ -254,6 +254,16 @@ const wechatCategory: Record<Locale, CategoryCopy> = {
   ko: { name: "위챗 글", description: "「스거의 코딩 이야기」 위챗 기술 글." },
 };
 
+const agentCategory: Record<Locale, CategoryCopy> = {
+  zh: { name: "Agent 手记", description: "关于 Agent、Harness 与 Superagent 的系统化写作。" },
+  en: { name: "Agent Notes", description: "A systematic series on agents, harnesses and superagents." },
+  ja: { name: "Agent ノート", description: "Agent・Harness・Superagent を体系的に扱う連載。" },
+  de: { name: "Agent-Notizen", description: "Eine systematische Reihe über Agenten, Harnesses und Superagenten." },
+  fr: { name: "Notes Agent", description: "Une série systématique sur les agents, harnesses et superagents." },
+  es: { name: "Notas Agent", description: "Una serie sistemática sobre agentes, harnesses y superagentes." },
+  ko: { name: "Agent 노트", description: "Agent, Harness, Superagent를 체계적으로 다루는 연재." },
+};
+
 const tags: Record<string, Record<Locale, string>> = {
   nextjs: { zh: "Next.js", en: "Next.js", ja: "Next.js", de: "Next.js", fr: "Next.js", es: "Next.js", ko: "Next.js" },
   typescript: { zh: "TypeScript", en: "TypeScript", ja: "TypeScript", de: "TypeScript", fr: "TypeScript", es: "TypeScript", ko: "TypeScript" },
@@ -276,6 +286,7 @@ export function localizeCategory(
   fallback: { name: string; description: string | null },
 ): CategoryCopy {
   if (slug === "wechat-notes") return wechatCategory[locale] ?? wechatCategory.en;
+  if (slug === "agent-notes") return agentCategory[locale] ?? agentCategory.en;
   return categoriesByLocale[locale]?.[slug] ?? { name: fallback.name, description: fallback.description ?? "" };
 }
 
