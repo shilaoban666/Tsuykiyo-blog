@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.1.0
+
+### 内容
+
+- 新增「Agent 手记」专栏 30 篇原创长文
+- 覆盖基础认知、Agent Harness、Superagent、工程实践、评测与安全五个系列
+- 每篇从约 1,800 字扩写到 3,500–4,100 字，加入工程案例、落地检查清单、常见误区与面试追问
+- 30 篇文章合计 113,501 个中文字
+- 每篇一张按标题生成的独立封面，共 30 张
+- 新增分类「Agent 手记」及 7 语言分类文案
+
+### 工程
+
+- `scripts/import-agent-articles.mjs`：Markdown frontmatter 解析、分类/标签/封面入库、按 slug 幂等更新
+- `scripts/generate-agent-covers.mjs`：按标题生成并压缩 30 张 1472×981 WebP 封面
+- 文章按日期发布在 2026-10-20 至 2026-11-18 之间
+
 ## v1.0.0
 
 ### 前台
