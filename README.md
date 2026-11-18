@@ -210,6 +210,7 @@ npm run dev                  # 开发；生产用 npm run build && npm run start
 - [x] 友链页与产品页：可在配置文件中维护，支持七语言界面与产品文案
 - [x] CSDN 批量导入：真实阅读/评论计数、原站链接、图片本地化、增量更新
 - [x] 公众号文章导入：封面使用原文配图、正文图片本地化、来源链接、去重
+- [x] Agent 专栏：30 篇原创长文，覆盖基础认知 / Harness / Superagent / 工程实践 / 评测与安全
 - [x] 产品详情页：真实截图画廊、exe 直链下载、能力清单、安装命令、许可证与下一个产品
 - [x] 中 / 英 / 日 / 德 / 法 / 西 / 韩 七语言切换，自动检测浏览器语言并记住选择
 - [x] 玻璃黑胶音乐播放器：默认不自动播放，支持歌单、进度、音量、循环、跨页连续播放
@@ -237,12 +238,13 @@ npm run dev                  # 开发；生产用 npm run build && npm run start
 
 ## 📥 内容导入
 
-仓库自带两个导入脚本，把已有文章搬进来，图片全部下载并压缩成 WebP 本地托管，按原文链接去重。
+仓库自带内容导入脚本，把已有文章搬进来，图片全部下载并压缩成 WebP 本地托管，按原文链接去重。
 
 | 来源 | 命令 | 说明 |
 | --- | --- | --- |
 | CSDN | `node scripts/import-csdn.mjs` | 保留原站真实阅读 / 评论计数与原文链接，设置 canonical |
 | 微信公众号 | `node scripts/import-wechat.mjs` | 链接写在 [`wechat-import/links.txt`](wechat-import/links.txt)，封面用原文配图 |
+| Agent 专栏 | `node scripts/import-agent-articles.mjs` | 导入 `content/agent-expanded` 下的扩写稿，封面使用 `public/art/generated/agents` |
 
 导入的数字都来自原站，不伪造阅读量或评论。
 
@@ -306,6 +308,38 @@ node scripts/import-csdn.mjs
 
 </details>
 
+<details>
+<summary><b>Agent 专栏细节</b></summary>
+<br />
+
+![Agent 文章页](docs/agent-post.png)
+
+新增「Agent 手记」分类，共 30 篇长文：
+
+| 系列 | 篇数 | 内容 |
+| --- | ---: | --- |
+| 基础认知 | 4 | Agent 定义、记忆分层、规划范式、多智能体拓扑 |
+| Agent Harness | 10 | 工具层、上下文、循环控制、检查点、权限沙箱、可观测性、HITL、MCP、多租户 |
+| Superagent | 9 | 编排者定义、任务分解、共享记忆、工具编排、质量闸门、成本延迟、失败恢复、混合工作流、产品演进 |
+| 工程实践 | 4 | 最小 Harness、工具契约测试、提示与配置版本、本地开发环境 |
+| 评测与安全 | 3 | 评测体系、提示注入防御、上线安全检查清单 |
+
+- 每篇从约 1,800 字扩写到 **3,500–4,100 字**，30 篇合计 **113,501 个中文字**
+- 新增工程案例、落地检查清单、常见误区与面试追问；代码块保留
+- 每篇一张按标题生成的独立封面，30 张，位于 `public/art/generated/agents/`
+- 分类页：`/categories/agent-notes`
+
+![Agent 封面总览](docs/agent-covers-sheet.jpg)
+
+导入与生成脚本：
+
+```bash
+node scripts/import-agent-articles.mjs
+node scripts/generate-agent-covers.mjs
+```
+
+</details>
+
 ## 🗂 项目结构
 
 <details>
@@ -337,8 +371,10 @@ node scripts/import-csdn.mjs
 │  ├─ db/                        # postgres.js 客户端与 Drizzle schema
 │  └─ lib/                       # 鉴权、设置、查询、校验、工具
 ├─ db/migrations/                # 数据库结构（3 份迁移）
-├─ scripts/                      # 建库、种子、一键启动、CSDN 导入
+├─ scripts/                      # 建库、种子、一键启动、CSDN/公众号/Agent 导入
+├─ content/agent-expanded/        # 30 篇 Agent 专栏扩写稿（Markdown）
 ├─ public/art/generated/articles/ # 每篇 CSDN 文章单独生成的封面
+├─ public/art/generated/agents/   # 30 篇 Agent 专栏封面
 ├─ public/imported/wechat/       # 公众号正文图片与封面
 ├─ public/imported/csdn/         # 从 CSDN 下载并压缩的正文图片
 ├─ public/art/generated/          # AI 生成的二次元插画（WebP）
